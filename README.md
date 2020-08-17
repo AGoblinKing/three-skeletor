@@ -12,6 +12,8 @@ and ported to typescript with breaking API changes. The primary purpose of this 
 
 There is going to be some breaking API changes for bit until things settle down.
 
+![](./docs/img/example_ik.gif)
+
 # Quick Start
 
 ```
