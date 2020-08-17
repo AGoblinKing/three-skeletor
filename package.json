@@ -1,7 +1,7 @@
 {
-	"name": "aframe-skeletor",
-	"version": "1.0.0",
-	"description": "Inverse Kinematics for AFRAME",
+	"name": "three-skeletor",
+	"version": "0.0.2",
+	"description": "Inverse Kinematics for three.js",
 	"main": "dst/three-skeletor.cjs.js",
 	"module": "dst/three-skeletor.es.js",
 	"browser": "dst/three-skeletor.umd.js",
