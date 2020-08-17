@@ -15,7 +15,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"directory": "https://github.com/agoblinking/aframe-skeletor"
+		"directory": "https://github.com/agoblinking/three-skeletor"
 	},
 	"license": "MIT",
 	"devDependencies": {
