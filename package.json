@@ -1,6 +1,6 @@
 {
 	"name": "three-skeletor",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Inverse Kinematics for three.js",
 	"main": "dst/three-skeletor.cjs.js",
 	"module": "dst/three-skeletor.es.js",
