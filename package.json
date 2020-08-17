@@ -1,6 +1,6 @@
 {
 	"name": "three-skeletor",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Inverse Kinematics for three.js",
 	"main": "dst/three-skeletor.cjs.js",
 	"module": "dst/three-skeletor.es.js",
@@ -9,7 +9,14 @@
 		"dev": "rollup -c -w",
 		"build": "rollup -c"
 	},
-	"author": "",
+	"author": {
+		"name": "Ago Blinking",
+		"url": "https://github.com/agoblinking"
+	},
+	"repository": {
+		"type": "git",
+		"directory": "https://github.com/agoblinking/aframe-skeletor"
+	},
 	"license": "MIT",
 	"devDependencies": {
 		"@rollup/plugin-sucrase": "^3.1.0",
