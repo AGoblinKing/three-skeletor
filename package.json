@@ -1,0 +1,22 @@
+{
+	"name": "aframe-skeletor",
+	"version": "1.0.0",
+	"description": "Inverse Kinematics for AFRAME",
+	"main": "dst/three-skeletor.cjs.js",
+	"module": "dst/three-skeletor.es.js",
+	"browser": "dst/three-skeletor.umd.js",
+	"scripts": {
+		"dev": "rollup -c -w",
+		"build": "rollup -c"
+	},
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"@rollup/plugin-sucrase": "^3.1.0",
+		"rollup": "^2.26.3",
+		"rollup-plugin-terser": "^7.0.0"
+	},
+	"peerDependencies": {
+		"three": "^0.119.1"
+	}
+}

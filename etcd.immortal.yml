@@ -1,0 +1,9 @@
+cmd: './etcd'
+env: '.'
+log:
+  file: '/var/log/goblinlifeetcd'
+  age: 8
+  num: 1
+  size: 1
+  timestamp: false
+wait: 1
