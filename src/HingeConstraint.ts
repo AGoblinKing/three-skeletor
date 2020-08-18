@@ -13,7 +13,7 @@ const { DEG2RAD, RAD2DEG } = ThreeMath
 /**
  * A class for a constraint.
  */
-class IKHingeConstraint {
+export class IKHingeConstraint {
 	/**
 	 * Pass in an angle value in degrees,
 	 * Axis of rotation for the constraint is calculated from initial bone positions.

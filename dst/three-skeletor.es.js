@@ -1,4 +1,4 @@
-import { Vector3, Matrix4, Object3D, ConeBufferGeometry, Mesh, MeshBasicMaterial, AxesHelper, Color, Math as Math$1 } from 'three';
+import { Vector3, Matrix4, Object3D, ConeBufferGeometry, Mesh, MeshBasicMaterial, AxesHelper, Color, Plane, Math as Math$1 } from 'three';
 
 /**
  * A collection of utilities.
@@ -679,6 +679,67 @@ const t2$1 = new Vector3();
 const t3$1 = new Vector3();
 const t4 = new Vector3();
 
+const { DEG2RAD, RAD2DEG } = Math$1;
+
+/**
+ * A class for a constraint.
+ */
+class IKHingeConstraint {
+	/**
+	 * Pass in an angle value in degrees,
+	 * Axis of rotation for the constraint is calculated from initial bone positions.
+	 *
+	 * @param {number} angle
+	 */
+	constructor(angle) {
+		this.angle = angle;
+		this.rotationPlane = new Plane();
+	}
+
+	/**
+	 * Applies a hinge constraint to passed in IKJoint. The direction will always be updated
+	 * with this constraint, because it will always be projected onto the rotation plane.
+	 * Additionally, an angle constraint will be applied if necessary.
+	 *
+	 * @param {IKJoint} joint
+	 * @private
+	 */
+	_apply(joint) {
+		// Get direction of joint and parent in world space
+		const direction = new Vector3().copy(joint._getDirection());
+		const parentDirection = joint
+			._localToWorldDirection(t1$1.copy(Z_AXIS))
+			.normalize();
+		const rotationPlaneNormal = joint
+			._localToWorldDirection(t2$1.copy(joint._originalHinge))
+			.normalize();
+		this.rotationPlane.normal = rotationPlaneNormal;
+		var projectedDir = this.rotationPlane.projectPoint(direction, new Vector3());
+
+		var parentDirectionProjected = this.rotationPlane.projectPoint(
+			parentDirection,
+			t3$1
+		);
+		var currentAngle = projectedDir.angleTo(parentDirectionProjected) * RAD2DEG;
+
+		//apply adjustment to angle if it is "negative"
+		var cross = t4.crossVectors(projectedDir, parentDirectionProjected);
+		if (cross.dot(rotationPlaneNormal) > 0) {
+			currentAngle += 180;
+		}
+
+		if (currentAngle > this.angle) {
+			parentDirectionProjected.applyAxisAngle(
+				rotationPlaneNormal,
+				this.angle / RAD2DEG
+			);
+			joint._setDirection(parentDirectionProjected);
+		} else {
+			joint._setDirection(projectedDir);
+		}
+	}
+}
+
 /**
  * Class representing an IK chain, comprising multiple IKJoints.
  */
@@ -955,7 +1016,7 @@ class IKChain {
 }
 
 const Z_AXIS$1 = new Vector3(0, 0, 1);
-const { DEG2RAD, RAD2DEG } = Math$1;
+const { DEG2RAD: DEG2RAD$1, RAD2DEG: RAD2DEG$1 } = Math$1;
 
 /**
  * A class for a constraint.
@@ -984,7 +1045,7 @@ class IKBallConstraint {
 			.normalize();
 
 		// Find the current angle between them
-		const currentAngle = direction.angleTo(parentDirection) * RAD2DEG;
+		const currentAngle = direction.angleTo(parentDirection) * RAD2DEG$1;
 
 		if (this.angle / 2 < currentAngle) {
 			direction.normalize();
@@ -994,7 +1055,7 @@ class IKBallConstraint {
 				.crossVectors(parentDirection, direction)
 				.normalize();
 
-			parentDirection.applyAxisAngle(correctionAxis, this.angle * DEG2RAD * 0.5);
+			parentDirection.applyAxisAngle(correctionAxis, this.angle * DEG2RAD$1 * 0.5);
 			joint._setDirection(parentDirection);
 			return true
 		}
@@ -1003,4 +1064,4 @@ class IKBallConstraint {
 	}
 }
 
-export { BoneHelper, IK, IKBallConstraint, IKChain, IKHelper, IKJoint, getCentroid, getWorldDistance, getWorldPosition, setQuaternionFromDirection, transformPoint };
+export { BoneHelper, IK, IKBallConstraint, IKChain, IKHelper, IKHingeConstraint, IKJoint, getCentroid, getWorldDistance, getWorldPosition, setQuaternionFromDirection, transformPoint };
